@@ -11,7 +11,8 @@ public class Pokemon {
 	private Integer number;
 	private String name;
 	private List<PokemonType> type = new ArrayList<>();
-	private List<Integer> evolution = new ArrayList<>();
+//	private List<Integer> evolution = new ArrayList<>();
+	private List<Pokemon> evolution = new ArrayList<>();
 	
 	public Pokemon() {
 		
@@ -51,21 +52,22 @@ public class Pokemon {
 		this.type.remove(type);
 	}
 
-	public List<Integer> getEvolution() {
+	
+	public List<Pokemon> getEvolution() {
 		return evolution;
 	}
 
-	public void addEvolution(int pokemon) {
+	public void addEvolution(Pokemon pokemon) {
 		evolution.add(pokemon);
 	}
 	
-	public void removeEvolution(int pokemon) {
+	public void removeEvolution(Pokemon pokemon) {
 		evolution.remove(pokemon);
 	}
 
 	@Override
 	public String toString() {
-		return "Pokemon [number=" + number + ", name=" + name + ", type=" + type + ", evolution=" + evolution + "]";
+		return "Pokemon [number=" + number + ", name=" + name + ", type=" + type + "]";
 	}
 
 
