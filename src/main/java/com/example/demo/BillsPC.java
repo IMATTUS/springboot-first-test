@@ -1,61 +1,22 @@
-package com.example.demo.controller;
+package com.example.demo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.Pokemon.PokemonType;
 
-import com.example.demo.entities.Pokemon;
-import com.example.demo.entities.enums.PokemonType;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+//XXX Repository
+public class BillsPC {
 
-@RestController
-@RequestMapping(value = "/pokedex", method = RequestMethod.GET, produces = "application/json")
-public class Pokedex {
+	private static List<Pokemon> pokemon = new ArrayList<>();
 
-	@GetMapping
-	public String listaPokemon(@RequestParam Map<String, String> parametros) throws JsonProcessingException {
+	public List<Pokemon> getAll() {
+		setPokemon();
 
-		List<Pokemon> pokedex = new ArrayList<>();
-
-		geraPokedex(pokedex);
-
-		for (String parametro : parametros.keySet()) {
-			// parametro terá o nome do parametro
-			// ex: http://localhost:8080/pokedex?nome=Bulbasaur
-			// parametro é 'nome' e o conteudo é 'Bulbasaur'
-			parametros.get(parametro); // retorna o conteudo do parametro
-			// se não tem a chave/nome do campo retorna null
-		}
-
-		List<Pokemon> pokemon = pokedex;
-
-		if (parametros.get("nome") != null) {
-			pokemon = filtraNome(pokemon, parametros.get("nome"));
-		}
-		if (parametros.get("evolui") != null) {
-			pokemon = filtraEvolucao(pokemon);
-		}
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-		String json = mapper.writeValueAsString(pokemon);
-		json = mapper.writeValueAsString(pokemon.toArray());
-
-		return json;
-
-//		return pokemon.toString();
+		return pokemon;
 	}
 
-	public List<Pokemon> filtraEvolucao(List<Pokemon> pokemon) {
+	public List<Pokemon> getAllEvolution(List<Pokemon> pokemon) {
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 		Pokemon pokeAux;
 
@@ -88,7 +49,7 @@ public class Pokedex {
 		return pokeFiltro;
 	}
 
-	public List<Pokemon> filtraNome(List<Pokemon> pokemon, String nome) {
+	public List<Pokemon> getAllNamed(List<Pokemon> pokemon, String nome) {
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 		for (Pokemon poke : pokemon) {
 			if (poke.getName().toUpperCase().indexOf(nome.toUpperCase()) != -1) {
@@ -98,17 +59,16 @@ public class Pokedex {
 		return pokeFiltro;
 	}
 
-	public void geraPokedex(List<Pokemon> pokemon) {
+	private void setPokemon() {
+		pokemon.clear();
+		int pokeNumber = 0;
 
-		int pokeNumber=0;
-		
-		
 		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
+
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
-		
-		
+
 		p = new Pokemon(++pokeNumber, "Ivysaur");
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -157,13 +117,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("BUG"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Butterfree");
 		p.addType(PokemonType.valueOf("BUG"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Weedle");
 		p.addType(PokemonType.valueOf("BUG"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -174,13 +134,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Beedrill");
 		p.addType(PokemonType.valueOf("BUG"));
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Pidgey");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		p.addType(PokemonType.valueOf("FLYING"));
@@ -191,13 +151,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Pidgeot");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Rattata");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
@@ -206,7 +166,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Spearow");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		p.addType(PokemonType.valueOf("FLYING"));
@@ -217,7 +177,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Ekans");
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
@@ -226,7 +186,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Pikachu");
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
@@ -235,7 +195,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Sandshrew");
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
@@ -244,7 +204,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Nidoran♀");
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
@@ -253,13 +213,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Nidoqueen");
 		p.addType(PokemonType.valueOf("POISON"));
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Nidoran♂");
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
@@ -268,13 +228,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Nidoking");
 		p.addType(PokemonType.valueOf("POISON"));
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Clefairy");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
@@ -283,7 +243,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Vulpix");
 		p.addType(PokemonType.valueOf("FIRE"));
 		pokemon.add(p);
@@ -292,7 +252,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FIRE"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Jigglypuff");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
@@ -301,7 +261,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Zubat");
 		p.addType(PokemonType.valueOf("POISON"));
 		p.addType(PokemonType.valueOf("FLYING"));
@@ -312,7 +272,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Oddish");
 		p.addType(PokemonType.valueOf("POISON"));
 		p.addType(PokemonType.valueOf("GRASS"));
@@ -323,13 +283,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("GRASS"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Vileplume");
 		p.addType(PokemonType.valueOf("POISON"));
 		p.addType(PokemonType.valueOf("GRASS"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Paras");
 		p.addType(PokemonType.valueOf("BUG"));
 		p.addType(PokemonType.valueOf("GRASS"));
@@ -340,7 +300,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("GRASS"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Venonat");
 		p.addType(PokemonType.valueOf("BUG"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -351,7 +311,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Diglett");
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
@@ -360,7 +320,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Meowth");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
@@ -369,7 +329,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Psyduck");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -378,7 +338,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Mankey");
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
@@ -387,7 +347,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Growlithe");
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
@@ -396,7 +356,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Poliwag");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -405,13 +365,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Poliwrath");
 		p.addType(PokemonType.valueOf("WATER"));
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Abra");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
@@ -420,12 +380,12 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Alakazam");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Machop");
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
@@ -434,12 +394,12 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Machamp");
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Bellsprout");
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -450,13 +410,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Victreebel");
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Tentacool");
 		p.addType(PokemonType.valueOf("WATER"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -467,7 +427,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Geodude");
 		p.addType(PokemonType.valueOf("ROCK"));
 		p.addType(PokemonType.valueOf("GROUND"));
@@ -478,13 +438,13 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Golem");
 		p.addType(PokemonType.valueOf("ROCK"));
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Ponyta");
 		p.addType(PokemonType.valueOf("FIRE"));
 		pokemon.add(p);
@@ -493,7 +453,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FIRE"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Slowpoke");
 		p.addType(PokemonType.valueOf("WATER"));
 		p.addType(PokemonType.valueOf("PSYCHIC"));
@@ -504,7 +464,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Magnemite");
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
@@ -513,12 +473,12 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Farfetch'd");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Doduo");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		p.addType(PokemonType.valueOf("FLYING"));
@@ -529,7 +489,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Seel");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -539,7 +499,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("ICE"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Grimer");
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
@@ -548,7 +508,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Shellder");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -558,7 +518,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("ICE"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Gastly");
 		p.addType(PokemonType.valueOf("GHOST"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -569,18 +529,18 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Gengar");
 		p.addType(PokemonType.valueOf("GHOST"));
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Onix");
 		p.addType(PokemonType.valueOf("ROCK"));
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Drowzee");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
@@ -589,7 +549,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Krabby");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -598,7 +558,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Voltorb");
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
@@ -607,7 +567,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Exeggcute");
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("PSYCHIC"));
@@ -618,7 +578,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Cubone");
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
@@ -627,19 +587,19 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("GROUND"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Hitmonlee");
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Hitmonchan");
 		p.addType(PokemonType.valueOf("FIGHTING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Lickitung");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Koffing");
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
@@ -648,7 +608,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Rhyhorn");
 		p.addType(PokemonType.valueOf("GROUND"));
 		p.addType(PokemonType.valueOf("ROCK"));
@@ -659,19 +619,19 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("ROCK"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Chansey");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Tangela");
 		p.addType(PokemonType.valueOf("GRASS"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Kangaskhan");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Horsea");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -680,7 +640,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Goldeen");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -689,7 +649,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Staryu");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -699,37 +659,37 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Mr. Mime");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Scyther");
 		p.addType(PokemonType.valueOf("BUG"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Jynx");
 		p.addType(PokemonType.valueOf("ICE"));
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Electabuzz");
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Magmar");
 		p.addType(PokemonType.valueOf("FIRE"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Pinsir");
 		p.addType(PokemonType.valueOf("BUG"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Tauros");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Magikarp");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
@@ -739,39 +699,39 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Lapras");
 		p.addType(PokemonType.valueOf("WATER"));
 		p.addType(PokemonType.valueOf("ICE"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Ditto");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Eevee");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Vaporeon");
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Jolteon");
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 3).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Flareon");
 		p.addType(PokemonType.valueOf("FIRE"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 4).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Porygon");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Omanyte");
 		p.addType(PokemonType.valueOf("ROCK"));
 		p.addType(PokemonType.valueOf("WATER"));
@@ -782,7 +742,7 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Kabuto");
 		p.addType(PokemonType.valueOf("ROCK"));
 		p.addType(PokemonType.valueOf("WATER"));
@@ -793,31 +753,31 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("WATER"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Aerodactyl");
 		p.addType(PokemonType.valueOf("ROCK"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Snorlax");
 		p.addType(PokemonType.valueOf("NORMAL"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Articuno");
 		p.addType(PokemonType.valueOf("ICE"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Zapdos");
 		p.addType(PokemonType.valueOf("ELECTRIC"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Moltres");
 		p.addType(PokemonType.valueOf("FIRE"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Dratini");
 		p.addType(PokemonType.valueOf("DRAGON"));
 		pokemon.add(p);
@@ -826,21 +786,19 @@ public class Pokedex {
 		p.addType(PokemonType.valueOf("DRAGON"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Dragonite");
 		p.addType(PokemonType.valueOf("DRAGON"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		pokemon.add(p);
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Mewtwo");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
-		
+
 		p = new Pokemon(++pokeNumber, "Mew");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
-		
 	}
-
 }

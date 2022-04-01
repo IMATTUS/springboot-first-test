@@ -1,21 +1,26 @@
-package com.example.demo.entities;
+package com.example.demo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.example.demo.entities.enums.PokemonType;
+//XXX Domain
 
 public class Pokemon {
-	
+
 	private Integer number;
 	private String name;
 	private List<PokemonType> type = new ArrayList<>();
-//	private List<Integer> evolution = new ArrayList<>();
 	private List<Pokemon> evolution = new ArrayList<>();
-	
+
+	public static enum PokemonType {
+		GRASS, POISON, FIRE, FLYING, WATER, BUG, 
+		NORMAL, ELECTRIC, GROUND, FIGHTING, PSYCHIC, 
+		ROCK, ICE, GHOST, DRAGON;
+	}
+
 	public Pokemon() {
-		
+
 	}
 
 	public Pokemon(Integer number, String name) {
@@ -47,12 +52,11 @@ public class Pokemon {
 	public void addType(PokemonType type) {
 		this.type.add(type);
 	}
-	
+
 	public void removeType(PokemonType type) {
 		this.type.remove(type);
 	}
 
-	
 	public List<Pokemon> getEvolution() {
 		return evolution;
 	}
@@ -60,7 +64,7 @@ public class Pokemon {
 	public void addEvolution(Pokemon pokemon) {
 		evolution.add(pokemon);
 	}
-	
+
 	public void removeEvolution(Pokemon pokemon) {
 		evolution.remove(pokemon);
 	}
@@ -70,8 +74,4 @@ public class Pokemon {
 		return "Pokemon [number=" + number + ", name=" + name + ", type=" + type + "]";
 	}
 
-
-
-	
-	
 }
