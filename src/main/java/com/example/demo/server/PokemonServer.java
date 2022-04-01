@@ -1,6 +1,9 @@
-package com.example.demo;
+package com.example.demo.server;
 
 import java.util.List;
+
+import com.example.demo.entities.Pokemon;
+import com.example.demo.repository.BillsPC;
 
 //XXX Server 
 public class PokemonServer {

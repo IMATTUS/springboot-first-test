@@ -1,9 +1,10 @@
-package com.example.demo;
+package com.example.demo.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.Pokemon.PokemonType;
+import com.example.demo.entities.Pokemon;
+import com.example.demo.entities.Pokemon.PokemonType;
 
 //XXX Repository
 public class BillsPC {

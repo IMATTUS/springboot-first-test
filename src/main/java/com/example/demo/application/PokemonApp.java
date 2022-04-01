@@ -1,6 +1,9 @@
-package com.example.demo;
+package com.example.demo.application;
 
 import java.util.List;
+
+import com.example.demo.entities.Pokemon;
+import com.example.demo.server.PokemonServer;
 
 //XXX Application
 public class PokemonApp {
