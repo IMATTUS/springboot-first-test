@@ -13,12 +13,6 @@ public class Pokemon {
 	private List<PokemonType> type = new ArrayList<>();
 	private List<Pokemon> evolution = new ArrayList<>();
 
-	public static enum PokemonType {
-		GRASS, POISON, FIRE, FLYING, WATER, BUG, 
-		NORMAL, ELECTRIC, GROUND, FIGHTING, PSYCHIC, 
-		ROCK, ICE, GHOST, DRAGON;
-	}
-
 	public Pokemon() {
 
 	}

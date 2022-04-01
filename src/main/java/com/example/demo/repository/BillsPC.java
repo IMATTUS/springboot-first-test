@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.entities.Pokemon;
-import com.example.demo.entities.Pokemon.PokemonType;
+import com.example.demo.entities.PokemonType;
 
 //XXX Repository
 public class BillsPC {
