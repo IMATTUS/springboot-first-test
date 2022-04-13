@@ -11,14 +11,14 @@ import com.example.demo.pokemon.service.PokemonService;
  *
  */
 public class GetPokemon {
-	private static PokemonService pokeServer = new PokemonService();
+	private static PokemonService pokeService = new PokemonService();
 
 	/** Get all the Pokemons in the pokedex, no filters
 	 * @return a full list of Pokemons
 	 */
 	public List<Pokemon> getAll() {
 
-		return pokeServer.getAll();
+		return pokeService.getAll();
 	}
 
 	/** Gets a list of Pokemons that the name contains the string nome
@@ -28,7 +28,7 @@ public class GetPokemon {
 	 */
 	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
 
-		return pokeServer.getAll(pokemon, name);
+		return pokeService.getAll(pokemon, name);
 	}
 
 	/** Gets a list of Pokemons that has evolutions (from basic stage to the last)
@@ -38,6 +38,6 @@ public class GetPokemon {
 	 */
 	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evolve) {
 
-		return pokeServer.getAll(pokemon, evolve);
+		return pokeService.getAll(pokemon, evolve);
 	}
 }
