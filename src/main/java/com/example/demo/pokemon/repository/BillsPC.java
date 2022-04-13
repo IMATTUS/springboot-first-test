@@ -17,33 +17,41 @@ public class BillsPC {
 		return pokemon;
 	}
 
+	private boolean achaEvolucaoPokemon(List<Pokemon> pokeFiltro, Pokemon poke) {
+		Pokemon pokeAux;
+		for (int i = 0; i < pokeFiltro.size(); i++) {
+			pokeAux = pokeFiltro.get(i);
+			for (int j = 0; j <= pokeAux.getEvolution().size(); j++) {
+
+				//
+				if (pokeAux.equals(poke)) {
+					return true;
+				}
+				if (j < pokeAux.getEvolution().size()) {
+					pokeAux = pokeAux.getEvolution().get(j);
+				}
+			}
+		}
+		return false;
+	}
+	
+	private void addPokemonToFilter(List<Pokemon> pokeFiltro, Pokemon poke) {
+		
+		if (pokeFiltro.contains(poke) == false) {
+
+			if (achaEvolucaoPokemon(pokeFiltro,poke) == false) {
+				pokeFiltro.add(poke);
+			}
+		}
+	}
+	
 	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evoluir) {
 		List<Pokemon> pokeFiltro = new ArrayList<>();
-		Pokemon pokeAux;
 
 		for (Pokemon poke : pokemon) {
 
 			if (poke.getEvolution().size() > 0) {
-
-				if (pokeFiltro.contains(poke) == false) {
-					boolean pokeFind = false;
-
-					for (int i = 0; i < pokeFiltro.size(); i++) {
-						pokeAux = pokeFiltro.get(i);
-						for (int j = 0; j <= pokeAux.getEvolution().size(); j++) {
-
-							if (pokeAux.equals(poke)) {
-								pokeFind = true;
-							}
-							if (j < pokeAux.getEvolution().size()) {
-								pokeAux = pokeAux.getEvolution().get(j);
-							}
-						}
-					}
-					if (pokeFind == false) {
-						pokeFiltro.add(poke);
-					}
-				}
+				addPokemonToFilter(pokeFiltro, poke);
 			}
 		}
 
