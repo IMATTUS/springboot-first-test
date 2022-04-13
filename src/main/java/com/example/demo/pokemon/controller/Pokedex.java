@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.pokemon.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.application.PokemonApp;
-import com.example.demo.entities.Pokemon;
+import com.example.demo.pokemon.application.GetPokemon;
+import com.example.demo.pokemon.entities.Pokemon;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -38,7 +38,7 @@ public class Pokedex {
 		String json = null;
 
 		List<Pokemon> pokedex = new ArrayList<>();
-		PokemonApp pokeApp = new PokemonApp();
+		GetPokemon pokeApp = new GetPokemon();
 
 		pokedex = pokeApp.getAll();
 		if (parametros.size() == 0) {
@@ -46,11 +46,11 @@ public class Pokedex {
 		}
 
 		if (parametros.get("nome") != null) {
-			pokedex = pokeApp.getAllNamed(pokedex, parametros.get("nome"));
+			pokedex = pokeApp.getAll(pokedex, parametros.get("nome"));
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 		if (parametros.get("evolui") != null) {
-			pokedex = pokeApp.getAllEvolution(pokedex);
+			pokedex = pokeApp.getAll(pokedex, true);
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 

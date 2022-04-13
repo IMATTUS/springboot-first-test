@@ -1,10 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.pokemon.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.entities.Pokemon;
-import com.example.demo.entities.PokemonType;
+import com.example.demo.pokemon.entities.Pokemon;
+import com.example.demo.pokemon.entities.PokemonType;
 
 //XXX Repository
 public class BillsPC {
@@ -17,7 +17,7 @@ public class BillsPC {
 		return pokemon;
 	}
 
-	public List<Pokemon> getAllEvolution(List<Pokemon> pokemon) {
+	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evoluir) {
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 		Pokemon pokeAux;
 
@@ -50,7 +50,7 @@ public class BillsPC {
 		return pokeFiltro;
 	}
 
-	public List<Pokemon> getAllNamed(List<Pokemon> pokemon, String nome) {
+	public List<Pokemon> getAll(List<Pokemon> pokemon, String nome) {
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 		for (Pokemon poke : pokemon) {
 			if (poke.getName().toUpperCase().indexOf(nome.toUpperCase()) != -1) {
