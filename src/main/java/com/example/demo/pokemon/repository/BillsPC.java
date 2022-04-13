@@ -17,19 +17,26 @@ public class BillsPC {
 		return pokemon;
 	}
 
-	private boolean achaEvolucaoPokemon(List<Pokemon> pokeFiltro, Pokemon poke) {
-		Pokemon pokeAux;
-		for (int i = 0; i < pokeFiltro.size(); i++) {
-			pokeAux = pokeFiltro.get(i);
-			for (int j = 0; j <= pokeAux.getEvolution().size(); j++) {
+	private boolean encontraEvolucao(Pokemon pokeAux,Pokemon poke){
+//		pokeAux.getEvolution().listIterator().n
+		for (int j = 0; j <= pokeAux.getEvolution().size(); j++) {
 
-				//
-				if (pokeAux.equals(poke)) {
+			if (pokeAux.equals(poke)) {
+				return true;
+			}
+			if (j < pokeAux.getEvolution().size()) {
+				if(encontraEvolucao(pokeAux.getEvolution().get(j), poke) == true) {
 					return true;
 				}
-				if (j < pokeAux.getEvolution().size()) {
-					pokeAux = pokeAux.getEvolution().get(j);
-				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean temEvolucaoPokemon(List<Pokemon> pokeFiltro, Pokemon poke) {
+		for (int i = 0; i < pokeFiltro.size(); i++) {
+			if(encontraEvolucao(pokeFiltro.get(i), poke) == true) {
+				return true;
 			}
 		}
 		return false;
@@ -39,7 +46,7 @@ public class BillsPC {
 		
 		if (pokeFiltro.contains(poke) == false) {
 
-			if (achaEvolucaoPokemon(pokeFiltro,poke) == false) {
+			if (temEvolucaoPokemon(pokeFiltro,poke) == false) {
 				pokeFiltro.add(poke);
 			}
 		}
