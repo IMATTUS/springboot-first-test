@@ -15,6 +15,9 @@ public class BillsPC {
 
 	private static List<Pokemon> pokemon = new ArrayList<>();
 
+	/** Will get a list of all the 151 Pokemons
+	 * @return the full list of Pokemons
+	 */
 	public List<Pokemon> getAll() {
 		setPokemon();
 
@@ -22,29 +25,29 @@ public class BillsPC {
 	}
 
 	/** Check if both pokemons are equal or get the evoluiton to do the same checking 
-	 * @param pokeAux the pokemon we will get the evolution if not equal to the other
-	 * @param poke the pokemon we are trying to find
+	 * @param poke the pokemon we will get the evolution if not equal to the other
+	 * @param pokeFinding the pokemon we are trying to find
 	 * @return true if the pokemon was found, false otherwise
 	 */
-	private boolean encontraEvolucao(Pokemon pokeAux,Pokemon poke){
+	private boolean findEvolution(Pokemon poke,Pokemon pokeFinding){
 		
-		if (pokeAux.equals(poke)) {
+		if (poke.equals(pokeFinding)) {
 			return true;
 		}
-		if(pokeAux.getEvolution().listIterator().hasNext()) {
-			return encontraEvolucao(pokeAux.getEvolution().listIterator().next(), poke);
+		if(poke.getEvolution().listIterator().hasNext()) {
+			return findEvolution(poke.getEvolution().listIterator().next(), pokeFinding);
 		}
 		return false;
 	}
 	
 	/** Will check if the pokemon is on the new filtered list already
-	 * @param pokeFiltro the list being created with filtered pokemon
+	 * @param pokeFilter the list being created with filtered pokemon
 	 * @param poke the pokemon to check if it is already in the list
 	 * @return true if the pokemon was found in the list (basic pokemon or evolution), false otherwise
 	 */
-	private boolean temEvolucaoPokemon(List<Pokemon> pokeFiltro, Pokemon poke) {
-		for (int i = 0; i < pokeFiltro.size(); i++) {
-			if(encontraEvolucao(pokeFiltro.get(i), poke) == true) {
+	private boolean hasEvolution(List<Pokemon> pokeFilter, Pokemon poke) {
+		for (int i = 0; i < pokeFilter.size(); i++) {
+			if(findEvolution(pokeFilter.get(i), poke) == true) {
 				return true;
 			}
 		}
@@ -52,47 +55,47 @@ public class BillsPC {
 	}
 	
 	/** Add pokemon to the filtered list being created
-	 * @param pokeFiltro the list being created
+	 * @param pokeFilter the list being created
 	 * @param poke pokemon to add to the list
 	 */
-	private void addPokemonToFilter(List<Pokemon> pokeFiltro, Pokemon poke) {
+	private void addPokemonToFilter(List<Pokemon> pokeFilter, Pokemon poke) {
 		
-		if (pokeFiltro.contains(poke) == false) {
+		if (pokeFilter.contains(poke) == false) {
 
-			if (temEvolucaoPokemon(pokeFiltro,poke) == false) {
-				pokeFiltro.add(poke);
+			if (hasEvolution(pokeFilter,poke) == false) {
+				pokeFilter.add(poke);
 			}
 		}
 	}
 	
 	/** Crates a list of all Pokemon that has evolutions, based on the list provided
 	 * @param pokemon the list of pokemont to filter from
-	 * @param evoluir boolean indicating if we should check for evolution on not.
+	 * @param evolve boolean indicating if we should check for evolution on not.
 	 * @return
 	 */
-	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evoluir) {
-		List<Pokemon> pokeFiltro = new ArrayList<>();
+	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evolve) {
+		List<Pokemon> pokeFilter = new ArrayList<>();
 
 		for (Pokemon poke : pokemon) {
 
 			if (poke.getEvolution().size() > 0) {
-				addPokemonToFilter(pokeFiltro, poke);
+				addPokemonToFilter(pokeFilter, poke);
 			}
 		}
 
-		return pokeFiltro;
+		return pokeFilter;
 	}
 
 	/** List all pokemon that contains the string 'nome' in its name
 	 * @param pokemon the list of Pokemon to check and filter from
-	 * @param nome the string to check if the pokemon name contains it
+	 * @param name the string to check if the pokemon name contains it
 	 * @return the list with the filter pokemon
 	 */
-	public List<Pokemon> getAll(List<Pokemon> pokemon, String nome) {
+	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
 		
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 		for (Pokemon poke : pokemon) {
-			if (poke.getName().toUpperCase().indexOf(nome.toUpperCase()) != -1) {
+			if (poke.getName().toUpperCase().indexOf(name.toUpperCase()) != -1) {
 				pokeFiltro.add(poke);
 			}
 		}

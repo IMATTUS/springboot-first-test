@@ -27,20 +27,24 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class Pokedex {
 
 	/** Will interpret the request in /pokedex and will provide the appropriate response
-	 * @param parametros the get query string
+	 * @param parameter the get query string
 	 * @return the response to the request on /pokedex
 	 * @throws JsonProcessingException
 	 */
 	@GetMapping
-	public String trataRequisicao(@RequestParam Map<String, String> parametros) throws JsonProcessingException {
+	public String trataRequisicao(@RequestParam Map<String, String> parameter) throws JsonProcessingException {
 
-		for (String parametro : parametros.keySet()) {
-			// parametro terá o nome do parametro
-			// ex: http://localhost:8080/pokedex?nome=Bulbasaur
-			// parametro é 'nome' e o conteudo é 'Bulbasaur'
-			parametros.get(parametro); // retorna o conteudo do parametro
-			// se não tem a chave/nome do campo retorna null
-		}
+//		if I need to loop through the parameters I can use the for below
+//		keeping for reference.
+//		for (String param : parameter.keySet()) {
+//			// param will have the name of the parameter
+//			// ex: http://localhost:8080/pokedex?name=Bulbasaur
+//			// parameter is 'name' and content is 'Bulbasaur'
+//			// ex: http://localhost:8080/pokedex?evolve
+//			// parameter is 'evolve'
+//			parameter.get(param); // returns the content of param
+//			// if there is no key/name of field it returns null
+//		}
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -50,15 +54,15 @@ public class Pokedex {
 		GetPokemon pokeApp = new GetPokemon();
 
 		pokedex = pokeApp.getAll();
-		if (parametros.size() == 0) {
+		if (parameter.size() == 0) {
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 
-		if (parametros.get("nome") != null) {
-			pokedex = pokeApp.getAll(pokedex, parametros.get("nome"));
+		if (parameter.get("name") != null) {
+			pokedex = pokeApp.getAll(pokedex, parameter.get("name"));
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
-		if (parametros.get("evolui") != null) {
+		if (parameter.get("evolve") != null) {
 			pokedex = pokeApp.getAll(pokedex, true);
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
