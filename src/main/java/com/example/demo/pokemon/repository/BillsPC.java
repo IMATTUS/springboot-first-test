@@ -7,6 +7,10 @@ import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.entities.PokemonType;
 
 //XXX Repository
+/** Represents the repository for pokemon
+ * @author netoim
+ *
+ */
 public class BillsPC {
 
 	private static List<Pokemon> pokemon = new ArrayList<>();
@@ -17,22 +21,27 @@ public class BillsPC {
 		return pokemon;
 	}
 
+	/** Check if both pokemons are equal or get the evoluiton to do the same checking 
+	 * @param pokeAux the pokemon we will get the evolution if not equal to the other
+	 * @param poke the pokemon we are trying to find
+	 * @return true if the pokemon was found, false otherwise
+	 */
 	private boolean encontraEvolucao(Pokemon pokeAux,Pokemon poke){
-//		pokeAux.getEvolution().listIterator().n
-		for (int j = 0; j <= pokeAux.getEvolution().size(); j++) {
-
-			if (pokeAux.equals(poke)) {
-				return true;
-			}
-			if (j < pokeAux.getEvolution().size()) {
-				if(encontraEvolucao(pokeAux.getEvolution().get(j), poke) == true) {
-					return true;
-				}
-			}
+		
+		if (pokeAux.equals(poke)) {
+			return true;
+		}
+		if(pokeAux.getEvolution().listIterator().hasNext()) {
+			return encontraEvolucao(pokeAux.getEvolution().listIterator().next(), poke);
 		}
 		return false;
 	}
 	
+	/** Will check if the pokemon is on the new filtered list already
+	 * @param pokeFiltro the list being created with filtered pokemon
+	 * @param poke the pokemon to check if it is already in the list
+	 * @return true if the pokemon was found in the list (basic pokemon or evolution), false otherwise
+	 */
 	private boolean temEvolucaoPokemon(List<Pokemon> pokeFiltro, Pokemon poke) {
 		for (int i = 0; i < pokeFiltro.size(); i++) {
 			if(encontraEvolucao(pokeFiltro.get(i), poke) == true) {
@@ -42,6 +51,10 @@ public class BillsPC {
 		return false;
 	}
 	
+	/** Add pokemon to the filtered list being created
+	 * @param pokeFiltro the list being created
+	 * @param poke pokemon to add to the list
+	 */
 	private void addPokemonToFilter(List<Pokemon> pokeFiltro, Pokemon poke) {
 		
 		if (pokeFiltro.contains(poke) == false) {
@@ -52,6 +65,11 @@ public class BillsPC {
 		}
 	}
 	
+	/** Crates a list of all Pokemon that has evolutions, based on the list provided
+	 * @param pokemon the list of pokemont to filter from
+	 * @param evoluir boolean indicating if we should check for evolution on not.
+	 * @return
+	 */
 	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evoluir) {
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 
@@ -65,7 +83,13 @@ public class BillsPC {
 		return pokeFiltro;
 	}
 
+	/** List all pokemon that contains the string 'nome' in its name
+	 * @param pokemon the list of Pokemon to check and filter from
+	 * @param nome the string to check if the pokemon name contains it
+	 * @return the list with the filter pokemon
+	 */
 	public List<Pokemon> getAll(List<Pokemon> pokemon, String nome) {
+		
 		List<Pokemon> pokeFiltro = new ArrayList<>();
 		for (Pokemon poke : pokemon) {
 			if (poke.getName().toUpperCase().indexOf(nome.toUpperCase()) != -1) {
@@ -75,6 +99,10 @@ public class BillsPC {
 		return pokeFiltro;
 	}
 
+	
+	/** Create the full list of pokemon, hardcoded for now.
+	 * 
+	 */
 	private void setPokemon() {
 		pokemon.clear();
 		int pokeNumber = 0;

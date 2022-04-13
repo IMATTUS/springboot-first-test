@@ -18,10 +18,19 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 //XXX Controller
 
+/**
+ * @author netoim
+ *
+ */
 @RestController
 @RequestMapping(value = "/pokedex", method = RequestMethod.GET, produces = "application/json")
 public class Pokedex {
 
+	/** Will interpret the request in /pokedex and will provide the appropriate response
+	 * @param parametros the get query string
+	 * @return the response to the request on /pokedex
+	 * @throws JsonProcessingException
+	 */
 	@GetMapping
 	public String trataRequisicao(@RequestParam Map<String, String> parametros) throws JsonProcessingException {
 
