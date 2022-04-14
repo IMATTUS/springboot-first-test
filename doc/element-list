@@ -1,0 +1,6 @@
+com.example.demo.pokemon
+com.example.demo.pokemon.application
+com.example.demo.pokemon.controller
+com.example.demo.pokemon.entities
+com.example.demo.pokemon.repository
+com.example.demo.pokemon.service
