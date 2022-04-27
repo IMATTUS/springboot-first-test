@@ -111,5 +111,13 @@ public class Pokemon {
 	public String toString() {
 		return "Pokemon [number=" + number + ", name=" + name + ", type=" + type + "]";
 	}
+	
+	public boolean hasEvolution() {
+		if(this.evolution.isEmpty()) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 
 }
