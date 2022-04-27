@@ -24,53 +24,6 @@ public class BillsPC {
 		return pokemon;
 	}
 
-	/** Check if both pokemons are equal or get the evoluiton to do the same checking 
-	 * @param poke the pokemon we will get the evolution if not equal to the other
-	 * @param pokeFinding the pokemon we are trying to find
-	 * @return true if the pokemon was found, false otherwise
-	 */
-	private boolean findEvolution(Pokemon poke,Pokemon pokeFinding){
-		
-		if (poke.equals(pokeFinding)) {
-			return true;
-		}
-		if(poke.getEvolution().listIterator().hasNext()) {
-			return findEvolution(poke.getEvolution().listIterator().next(), pokeFinding);
-		}
-		return false;
-	}
-	
-	/** Will check if the pokemon is on the new filtered list already
-	 * @param pokeFilter the list being created with filtered pokemon
-	 * @param poke the pokemon to check if it is already in the list
-	 * @return true if the pokemon was found in the list (basic pokemon or evolution), false otherwise
-	 */
-	private boolean hasEvolution(List<Pokemon> pokeFilter, Pokemon poke) {
-		// TODO use contains for the list
-		if(pokeFilter.contains(poke) == false) {
-			
-		}
-		for (int i = 0; i < pokeFilter.size(); i++) {
-			if(findEvolution(pokeFilter.get(i), poke) == true) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/** Add pokemon to the filtered list being created
-	 * @param pokeFilter the list being created
-	 * @param poke pokemon to add to the list
-	 */
-	private void addPokemonToFilter(List<Pokemon> pokeFilter, Pokemon poke) {
-		
-		if (pokeFilter.contains(poke) == false) {
-
-			if (hasEvolution(pokeFilter,poke) == false) {
-				pokeFilter.add(poke);
-			}
-		}
-	}
 	
 	/** Crates a list of all Pokemon that has evolutions, based on the list provided
 	 * @param pokemon the list of pokemont to filter from
@@ -86,9 +39,6 @@ public class BillsPC {
 				pokeFilter.add(poke);
 			}
 			
-//			if (poke.getEvolution().size() > 0) {
-//				addPokemonToFilter(pokeFilter, poke);
-//			}
 		}
 
 		return pokeFilter;

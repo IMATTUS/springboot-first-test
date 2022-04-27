@@ -1,7 +1,6 @@
 package com.example.demo.pokemon.entities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //XXX Domain
