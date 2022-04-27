@@ -46,6 +46,10 @@ public class BillsPC {
 	 * @return true if the pokemon was found in the list (basic pokemon or evolution), false otherwise
 	 */
 	private boolean hasEvolution(List<Pokemon> pokeFilter, Pokemon poke) {
+		// TODO use contains for the list
+		if(pokeFilter.contains(poke) == false) {
+			
+		}
 		for (int i = 0; i < pokeFilter.size(); i++) {
 			if(findEvolution(pokeFilter.get(i), poke) == true) {
 				return true;
@@ -78,9 +82,13 @@ public class BillsPC {
 
 		for (Pokemon poke : pokemon) {
 
-			if (poke.getEvolution().size() > 0) {
-				addPokemonToFilter(pokeFilter, poke);
+			if(pokeFilter.contains(poke)==false && poke.hasEvolution()) {
+				pokeFilter.add(poke);
 			}
+			
+//			if (poke.getEvolution().size() > 0) {
+//				addPokemonToFilter(pokeFilter, poke);
+//			}
 		}
 
 		return pokeFilter;
