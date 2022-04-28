@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.pokemon.application.AddPokemon;
 import com.example.demo.pokemon.application.GetPokemon;
 import com.example.demo.pokemon.entities.Pokemon;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,15 +24,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  *
  */
 @RestController
-@RequestMapping(value = "/pokedex", method = RequestMethod.GET, produces = "application/json")
 public class Pokedex {
 
+	private static List<Pokemon> pokedex = new ArrayList<>();
+	
 	/** Will interpret the request in /pokedex and will provide the appropriate response
 	 * @param parameter the get query string
 	 * @return the response to the request on /pokedex
 	 * @throws JsonProcessingException
 	 */
-	@GetMapping
+	
+	@RequestMapping(value = "/pokemons", method = RequestMethod.GET, produces = "application/json")
 	public String trataRequisicao(@RequestParam Map<String, String> parameter) throws JsonProcessingException {
 
 //		if I need to loop through the parameters I can use the for below
@@ -50,7 +53,7 @@ public class Pokedex {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		String json = null;
 
-		List<Pokemon> pokedex = new ArrayList<>();
+		
 		GetPokemon pokeApp = new GetPokemon();
 
 		pokedex = pokeApp.getAll();
@@ -70,6 +73,33 @@ public class Pokedex {
 //		return pokedex.toString();
 		return json;
 
+	}
+	
+	@RequestMapping(value = "/pokemons", method = RequestMethod.POST, produces = "application/json")
+	public String trataRequisicaoPost(@RequestParam Map<String, String> parameter) throws JsonProcessingException {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("");
+		
+//		for (String param : parameter.keySet()) {
+//		// param will have the name of the parameter
+//		// ex: http://localhost:8080/pokedex?name=Bulbasaur
+//		// parameter is 'name' and content is 'Bulbasaur'
+//		// ex: http://localhost:8080/pokedex?evolve
+//		// parameter is 'evolve'
+//		parameter.get(param); // returns the content of param
+//		sb.append(param + " - " + parameter.get(param) + "\n");
+//		
+//		// if there is no key/name of field it returns null
+//		}
+		
+		AddPokemon pokeApp = new AddPokemon();
+		if(!parameter.isEmpty()) {
+			sb.append(pokeApp.addPokemon(parameter));
+		} 
+		
+		
+		return sb.toString();
 	}
 
 }

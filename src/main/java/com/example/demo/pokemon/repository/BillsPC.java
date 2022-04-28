@@ -2,6 +2,7 @@ package com.example.demo.pokemon.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.entities.PokemonType;
@@ -19,8 +20,9 @@ public class BillsPC {
 	 * @return the full list of Pokemons
 	 */
 	public List<Pokemon> getAll() {
-		setPokemon();
-
+		if(pokemon.isEmpty()) {
+			setPokemon();
+		}
 		return pokemon;
 	}
 
@@ -61,11 +63,60 @@ public class BillsPC {
 	}
 
 	
+	public boolean addPokemon(Map<String, String> parameter) {
+		
+		if(pokemon.isEmpty()) {
+			setPokemon();
+		}
+		
+		/*
+		 * 	Integer number;
+			String name;
+			List<PokemonType> type 
+			List<Pokemon> evolution 
+		 */
+		Pokemon p = new Pokemon();
+		for (String param : parameter.keySet()) {
+			System.out.println(param + " - " + parameter.get(param));
+			if(param.equals("number")) {
+				p.setNumber(Integer.parseInt(parameter.get(param)));
+			}
+			if(param.equals("name")) {
+				p.setName(parameter.get(param));
+			}
+			if(param.contains("type")) {
+				p.addType(PokemonType.valueOf(parameter.get(param)));
+			}
+			if(param.equals("evolveFrom")) {
+				//TODO add evolution
+			}
+		}
+		
+		
+		System.out.println(p.toString());
+		System.out.println(pokemon.get(0).toString());
+		
+		System.out.println("Pokemon exists? " + pokemon.contains(p));
+		System.out.println("Pokemon exists pt2? " + pokemon.get(0).equals(p));
+		
+		if(p.getName() == null || p.getNumber() == null || p.getType().isEmpty()) {
+			return false;
+		}
+		
+		if(pokemon.contains(p) == false) {
+			pokemon.add(p);
+			return true;
+		}
+		return false;
+		
+	}
+	
 	/** Create the full list of pokemon, hardcoded for now.
 	 * 
 	 */
 	private void setPokemon() {
 		pokemon.clear();
+		
 		int pokeNumber = 0;
 
 		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");

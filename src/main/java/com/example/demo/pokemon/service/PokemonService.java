@@ -1,6 +1,7 @@
 package com.example.demo.pokemon.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.repository.BillsPC;
@@ -36,5 +37,9 @@ public class PokemonService {
 	 */
 	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evolve) {
 		return bpc.getAll(pokemon, evolve);
+	}
+	
+	public boolean addPokemon(Map<String, String> parameter) {
+		return bpc.addPokemon(parameter);
 	}
 }

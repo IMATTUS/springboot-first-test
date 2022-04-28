@@ -2,6 +2,7 @@ package com.example.demo.pokemon.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //XXX Domain
 
@@ -119,4 +120,23 @@ public class Pokemon {
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, number);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pokemon other = (Pokemon) obj;
+		return Objects.equals(name, other.name) && Objects.equals(number, other.number);
+	}
+
+	
+	
 }
