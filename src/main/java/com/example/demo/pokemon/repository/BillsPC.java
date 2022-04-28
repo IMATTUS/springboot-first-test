@@ -90,9 +90,10 @@ public class BillsPC {
 		if(pokemon.contains(p) == false) {
 			pokemon.add(p);
 			if(parameter.get("evolveFrom") != null) {
-				//TODO add evolution
 				Pokemon p2 = findPreEvolution(p, parameter.get("evolveFrom"));
-				p2.addEvolution(p);
+				if(p2 != null) {
+					p2.addEvolution(p);
+				}
 			}
 			return true;
 		}
