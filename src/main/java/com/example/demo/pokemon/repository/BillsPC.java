@@ -69,15 +69,8 @@ public class BillsPC {
 			setPokemon();
 		}
 		
-		/*
-		 * 	Integer number;
-			String name;
-			List<PokemonType> type 
-			List<Pokemon> evolution 
-		 */
 		Pokemon p = new Pokemon();
 		for (String param : parameter.keySet()) {
-			System.out.println(param + " - " + parameter.get(param));
 			if(param.equals("number")) {
 				p.setNumber(Integer.parseInt(parameter.get(param)));
 			}
@@ -87,17 +80,8 @@ public class BillsPC {
 			if(param.contains("type")) {
 				p.addType(PokemonType.valueOf(parameter.get(param)));
 			}
-			if(param.equals("evolveFrom")) {
-				//TODO add evolution
-			}
+
 		}
-		
-		
-		System.out.println(p.toString());
-		System.out.println(pokemon.get(0).toString());
-		
-		System.out.println("Pokemon exists? " + pokemon.contains(p));
-		System.out.println("Pokemon exists pt2? " + pokemon.get(0).equals(p));
 		
 		if(p.getName() == null || p.getNumber() == null || p.getType().isEmpty()) {
 			return false;
@@ -105,14 +89,31 @@ public class BillsPC {
 		
 		if(pokemon.contains(p) == false) {
 			pokemon.add(p);
+			if(parameter.get("evolveFrom") != null) {
+				//TODO add evolution
+				Pokemon p2 = findPreEvolution(p, parameter.get("evolveFrom"));
+				p2.addEvolution(p);
+			}
 			return true;
 		}
 		return false;
 		
 	}
 	
-	/** Create the full list of pokemon, hardcoded for now.
-	 * 
+	private Pokemon findPreEvolution(Pokemon poke, String pokePreEvolutionName) {
+		// TODO Auto-generated method stub
+		Pokemon pokePreEvolution = pokemon.stream()
+				.filter(p -> pokePreEvolutionName.equals(p.getName()))
+				.findFirst()
+				.orElse(null);
+		
+		return pokePreEvolution;
+		
+	}
+
+
+	/** 
+	 * Create the full list of pokemon, hardcoded for now.
 	 */
 	private void setPokemon() {
 		pokemon.clear();
