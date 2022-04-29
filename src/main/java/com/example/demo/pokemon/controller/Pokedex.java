@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 //XXX Controller
 
 /**
- * @author netoim
+ * @author Ibrahim Mattus Neto
  *
  */
 @RestController
@@ -98,8 +98,12 @@ public class Pokedex {
 			sb.append(pokeApp.addPokemon(parameter));
 		} 
 		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		String json = null;
+		json = mapper.writeValueAsString(sb.toString());
 		
-		return sb.toString();
+		return json;
 	}
 
 }

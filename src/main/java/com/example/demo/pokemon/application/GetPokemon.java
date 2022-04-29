@@ -7,7 +7,7 @@ import com.example.demo.pokemon.service.PokemonService;
 
 //XXX Application
 /**
- * @author netoim
+ * @author Ibrahim Mattus Neto
  *
  */
 public class GetPokemon {

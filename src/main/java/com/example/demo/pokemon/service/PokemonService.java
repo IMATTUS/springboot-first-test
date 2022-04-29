@@ -8,7 +8,7 @@ import com.example.demo.pokemon.repository.BillsPC;
 
 //XXX Server 
 /** 
- * @author netoim
+ * @author Ibrahim Mattus Neto
  *
  */
 public class PokemonService {
@@ -39,6 +39,10 @@ public class PokemonService {
 		return bpc.getAll(pokemon, evolve);
 	}
 	
+	/** Add new pokemon to the list
+	 * @param parameter, it should contain the number, name, types and pre evolution of a pokemon
+	 * @return
+	 */
 	public boolean addPokemon(Map<String, String> parameter) {
 		return bpc.addPokemon(parameter);
 	}

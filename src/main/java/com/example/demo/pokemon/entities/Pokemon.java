@@ -7,7 +7,7 @@ import java.util.Objects;
 //XXX Domain
 
 /** Represents a Pokemon
- * @author netoim
+ * @author Ibrahim Mattus Neto
  *
  */
 public class Pokemon {

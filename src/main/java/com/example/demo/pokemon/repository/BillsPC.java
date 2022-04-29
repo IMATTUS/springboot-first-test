@@ -9,7 +9,7 @@ import com.example.demo.pokemon.entities.PokemonType;
 
 //XXX Repository
 /** Represents the repository for pokemon
- * @author netoim
+ * @author Ibrahim Mattus Neto
  *
  */
 public class BillsPC {
@@ -23,6 +23,7 @@ public class BillsPC {
 		if(pokemon.isEmpty()) {
 			setPokemon();
 		}
+		pokemon.sort((p1,p2) -> p1.getNumber().compareTo(p2.getNumber()));
 		return pokemon;
 	}
 
@@ -42,7 +43,7 @@ public class BillsPC {
 			}
 			
 		}
-
+		pokeFilter.sort((p1,p2) -> p1.getNumber().compareTo(p2.getNumber()));
 		return pokeFilter;
 	}
 
@@ -53,18 +54,21 @@ public class BillsPC {
 	 */
 	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
 		
-		List<Pokemon> pokeFiltro = new ArrayList<>();
+		List<Pokemon> pokeFilter = new ArrayList<>();
 		for (Pokemon poke : pokemon) {
 			if (poke.getName().toUpperCase().indexOf(name.toUpperCase()) != -1) {
-				pokeFiltro.add(poke);
+				pokeFilter.add(poke);
 			}
 		}
-		return pokeFiltro;
+		pokeFilter.sort((p1,p2) -> p1.getNumber().compareTo(p2.getNumber()));
+		return pokeFilter;
 	}
 
-	
+	/** Add new pokemon to the list
+	 * @param parameter, it should contain the number, name, types and pre evolution of a pokemon
+	 * @return
+	 */
 	public boolean addPokemon(Map<String, String> parameter) {
-		
 		if(pokemon.isEmpty()) {
 			setPokemon();
 		}
@@ -80,7 +84,6 @@ public class BillsPC {
 			if(param.contains("type")) {
 				p.addType(PokemonType.valueOf(parameter.get(param)));
 			}
-
 		}
 		
 		if(p.getName() == null || p.getNumber() == null || p.getType().isEmpty()) {
@@ -89,29 +92,39 @@ public class BillsPC {
 		
 		if(pokemon.contains(p) == false) {
 			pokemon.add(p);
-			if(parameter.get("evolveFrom") != null) {
-				Pokemon p2 = findPreEvolution(p, parameter.get("evolveFrom"));
-				if(p2 != null) {
-					p2.addEvolution(p);
-				}
-			}
+			addEvolution(p,parameter.get("evolveFrom"));
 			return true;
 		}
 		return false;
 		
 	}
 	
-	private Pokemon findPreEvolution(Pokemon poke, String pokePreEvolutionName) {
-		// TODO Auto-generated method stub
+	/** Will add the pokemon to the evolution list of its pre evolution
+	 * @param poke
+	 * @param parameter
+	 */
+	private void addEvolution(Pokemon poke, String evolveFrom) {
+		if(evolveFrom != null) {
+			Pokemon p2 = findPreEvolution(evolveFrom);
+			if(p2 != null) {
+				p2.addEvolution(poke);
+			}
+		}
+	}
+	
+	/** Will find the pre evolution of the given pokemon
+	 * @param poke
+	 * @param pokePreEvolutionName
+	 * @return
+	 */
+	private Pokemon findPreEvolution(String pokePreEvolutionName) {
 		Pokemon pokePreEvolution = pokemon.stream()
 				.filter(p -> pokePreEvolutionName.equals(p.getName()))
 				.findFirst()
 				.orElse(null);
-		
 		return pokePreEvolution;
 		
 	}
-
 
 	/** 
 	 * Create the full list of pokemon, hardcoded for now.
