@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.entities.PokemonType;
 
@@ -12,6 +14,7 @@ import com.example.demo.pokemon.entities.PokemonType;
  * @author Ibrahim Mattus Neto
  *
  */
+@Service
 public class BillsPC {
 
 	private static List<Pokemon> pokemon = new ArrayList<>();

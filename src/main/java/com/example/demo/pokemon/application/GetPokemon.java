@@ -2,6 +2,9 @@ package com.example.demo.pokemon.application;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.service.PokemonService;
 
@@ -10,9 +13,11 @@ import com.example.demo.pokemon.service.PokemonService;
  * @author Ibrahim Mattus Neto
  *
  */
+@Service
 public class GetPokemon {
-	private static PokemonService pokeService = new PokemonService();
-
+//	private static PokemonService pokeService = new PokemonService();
+	@Autowired
+	private PokemonService pokeService;
 	/** Get all the Pokemons in the pokedex, no filters
 	 * @return a full list of Pokemons
 	 */

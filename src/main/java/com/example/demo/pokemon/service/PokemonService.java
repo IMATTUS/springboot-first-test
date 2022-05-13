@@ -3,6 +3,9 @@ package com.example.demo.pokemon.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.repository.BillsPC;
 
@@ -11,8 +14,11 @@ import com.example.demo.pokemon.repository.BillsPC;
  * @author Ibrahim Mattus Neto
  *
  */
+@Service
 public class PokemonService {
-	private BillsPC bpc = new BillsPC();
+//	private static BillsPC bpc = new BillsPC();
+	@Autowired
+	private BillsPC bpc;
 
 	/** Get all the Pokemons in the pokedex, no filters
 	 * @return a full list of Pokemons

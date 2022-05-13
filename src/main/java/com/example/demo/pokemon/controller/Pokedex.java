@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @RestController
 public class Pokedex {
 
+	@Autowired
+	private AddPokemon addPokemon;
+	
+	@Autowired
+	private GetPokemon getPokemon;
+	
 	private static List<Pokemon> pokedex = new ArrayList<>();
+	
 	
 	/** Will interpret the request in /pokedex and will provide the appropriate response
 	 * @param parameter the get query string
@@ -55,19 +63,19 @@ public class Pokedex {
 		String json = null;
 
 		
-		GetPokemon pokeApp = new GetPokemon();
+//		GetPokemon pokeApp = new GetPokemon();
 
-		pokedex = pokeApp.getAll();
+		pokedex = getPokemon.getAll();
 		if (parameter.size() == 0) {
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 
 		if (parameter.get("name") != null) {
-			pokedex = pokeApp.getAll(pokedex, parameter.get("name"));
+			pokedex = getPokemon.getAll(pokedex, parameter.get("name"));
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 		if (parameter.get("evolve") != null) {
-			pokedex = pokeApp.getAll(pokedex, true);
+			pokedex = getPokemon.getAll(pokedex, true);
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 
@@ -103,9 +111,10 @@ public class Pokedex {
 		//XXX receber json, não funciona com "parameter"
 		//XXX passar apenas objeto do dominio-> Pokemon
 		
-		AddPokemon pokeApp = new AddPokemon();
+//		AddPokemon pokeApp = new AddPokemon();
+		
 		if(!body.isEmpty()) {
-			sb.append(pokeApp.addPokemon(poke));
+			sb.append(addPokemon.addPokemon(poke));
 		} 
 		
 
