@@ -1,7 +1,6 @@
 package com.example.demo.pokemon.application;
 
-import java.util.Map;
-
+import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.service.PokemonService;
 
 /**
@@ -15,8 +14,8 @@ public class AddPokemon {
 	 * @param parameter, it should contain the number, name, types and pre evolution of a pokemon
 	 * @return
 	 */
-	public boolean addPokemon(Map<String, String> parameter) {
-		return pokeService.addPokemon(parameter);
+	public boolean addPokemon(Pokemon poke) {
+		return pokeService.addPokemon(poke);
 	}
-
+	
 }

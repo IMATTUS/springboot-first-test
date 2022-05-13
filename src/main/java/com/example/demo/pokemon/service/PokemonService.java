@@ -12,7 +12,7 @@ import com.example.demo.pokemon.repository.BillsPC;
  *
  */
 public class PokemonService {
-	private static BillsPC bpc = new BillsPC();
+	private BillsPC bpc = new BillsPC();
 
 	/** Get all the Pokemons in the pokedex, no filters
 	 * @return a full list of Pokemons
@@ -43,7 +43,7 @@ public class PokemonService {
 	 * @param parameter, it should contain the number, name, types and pre evolution of a pokemon
 	 * @return
 	 */
-	public boolean addPokemon(Map<String, String> parameter) {
-		return bpc.addPokemon(parameter);
+	public boolean addPokemon(Pokemon poke) {
+		return bpc.addPokemon(poke);
 	}
 }

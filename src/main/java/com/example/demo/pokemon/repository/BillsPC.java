@@ -68,31 +68,31 @@ public class BillsPC {
 	 * @param parameter, it should contain the number, name, types and pre evolution of a pokemon
 	 * @return
 	 */
-	public boolean addPokemon(Map<String, String> parameter) {
+	public boolean addPokemon(Pokemon poke) {
 		if(pokemon.isEmpty()) {
 			setPokemon();
 		}
 		
-		Pokemon p = new Pokemon();
-		for (String param : parameter.keySet()) {
-			if(param.equals("number")) {
-				p.setNumber(Integer.parseInt(parameter.get(param)));
-			}
-			if(param.equals("name")) {
-				p.setName(parameter.get(param));
-			}
-			if(param.contains("type")) {
-				p.addType(PokemonType.valueOf(parameter.get(param)));
-			}
-		}
+//		Pokemon p = new Pokemon();
+//		for (String param : parameter.keySet()) {
+//			if(param.equals("number")) {
+//				p.setNumber(Integer.parseInt(parameter.get(param)));
+//			}
+//			if(param.equals("name")) {
+//				p.setName(parameter.get(param));
+//			}
+//			if(param.contains("type")) {
+//				p.addType(PokemonType.valueOf(parameter.get(param)));
+//			}
+//		}
 		
-		if(p.getName() == null || p.getNumber() == null || p.getType().isEmpty()) {
+		if(poke.getName() == null || poke.getNumber() == null || poke.getType().isEmpty()) {
 			return false;
 		}
 		
-		if(pokemon.contains(p) == false) {
-			pokemon.add(p);
-			addEvolution(p,parameter.get("evolveFrom"));
+		if(pokemon.contains(poke) == false) {
+			pokemon.add(poke);
+//			addEvolution(poke,parameter.get("evolveFrom"));
 			return true;
 		}
 		return false;

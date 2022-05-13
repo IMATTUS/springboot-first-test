@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,9 +76,10 @@ public class Pokedex {
 
 	}
 	
-	@RequestMapping(value = "/pokemons", method = RequestMethod.POST, produces = "application/json")
-	public String trataRequisicaoPost(@RequestParam Map<String, String> parameter) throws JsonProcessingException {
-		
+	@RequestMapping(value = "/pokemons", method = RequestMethod.POST, consumes = "application/json",
+			produces = "application/json")
+	public String trataRequisicaoPost(@RequestBody String body) throws JsonProcessingException {
+//		Map<String, Object> body
 		StringBuilder sb = new StringBuilder();
 		sb.append("");
 		
@@ -92,17 +94,24 @@ public class Pokedex {
 //		
 //		// if there is no key/name of field it returns null
 //		}
-		
-		AddPokemon pokeApp = new AddPokemon();
-		if(!parameter.isEmpty()) {
-			sb.append(pokeApp.addPokemon(parameter));
-		} 
-		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		String json = null;
+		
+		Pokemon poke = mapper.readValue(body, Pokemon.class);
+		
+		//XXX receber json, não funciona com "parameter"
+		//XXX passar apenas objeto do dominio-> Pokemon
+		
+		AddPokemon pokeApp = new AddPokemon();
+		if(!body.isEmpty()) {
+			sb.append(pokeApp.addPokemon(poke));
+		} 
+		
+
 		json = mapper.writeValueAsString(sb.toString());
 		
+		//XXX Retornar status code 201
 		return json;
 	}
 
