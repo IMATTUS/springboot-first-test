@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,17 +66,21 @@ public class Pokedex {
 		
 //		GetPokemon pokeApp = new GetPokemon();
 
-		pokedex = getPokemon.getAll();
+		pokedex = getPokemon.findAll();
 		if (parameter.size() == 0) {
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 
-		if (parameter.get("name") != null) {
-			pokedex = getPokemon.getAll(pokedex, parameter.get("name"));
+		if (parameter.get("name") != null && parameter.get("evolve") == null) {
+			pokedex = getPokemon.findAll(pokedex, parameter.get("name"));
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
-		if (parameter.get("evolve") != null) {
-			pokedex = getPokemon.getAll(pokedex, true);
+		if (parameter.get("evolve") != null && parameter.get("name") == null ) {
+			pokedex = getPokemon.findAll(pokedex, true);
+			json = mapper.writeValueAsString(pokedex.toArray());
+		}
+		if (parameter.get("evolve") != null && parameter.get("name") != null ) {
+			pokedex = getPokemon.findAll(pokedex, parameter.get("name"),true);
 			json = mapper.writeValueAsString(pokedex.toArray());
 		}
 
@@ -86,7 +91,8 @@ public class Pokedex {
 	
 	@RequestMapping(value = "/pokemons", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public String trataRequisicaoPost(@RequestBody String body) throws JsonProcessingException {
+//	public String trataRequisicaoPost(@RequestBody String body) throws JsonProcessingException {
+	public ResponseEntity<?> create(@RequestBody String body) throws JsonProcessingException {
 //		Map<String, Object> body
 		StringBuilder sb = new StringBuilder();
 		sb.append("");
@@ -114,14 +120,19 @@ public class Pokedex {
 //		AddPokemon pokeApp = new AddPokemon();
 		
 		if(!body.isEmpty()) {
-			sb.append(addPokemon.addPokemon(poke));
+//			sb.append(addPokemon.addPokemon(poke));
+		    if(addPokemon.addPokemon(poke)) {
+		        return new ResponseEntity<>(HttpStatus.CREATED);
+		        
+		    } 
 		} 
+		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	
 		
-
-		json = mapper.writeValueAsString(sb.toString());
-		
-		//XXX Retornar status code 201
-		return json;
+//		json = mapper.writeValueAsString(sb.toString());
+//		
+//		//XXX Retornar status code 201
+//		return json;
 	}
 
 }

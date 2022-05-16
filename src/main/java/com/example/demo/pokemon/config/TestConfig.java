@@ -1,173 +1,51 @@
-package com.example.demo.pokemon.service;
+package com.example.demo.pokemon.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.entities.PokemonType;
 import com.example.demo.pokemon.repository.BillsPC;
 
-//XXX Server 
-/** 
- * @author Ibrahim Mattus Neto
- *
- */
-@Service
-public class PokemonService {
-//	private static BillsPC bpc = new BillsPC();
+@Configuration
+@Profile("test")
+public class TestConfig implements CommandLineRunner {
+	
 	@Autowired
 	private BillsPC bpc;
-
-	/** Get all the Pokemons in the pokedex, no filters
-	 * @return a full list of Pokemons
-	 */
-	public List<Pokemon> findAll() {
-		return bpc.findAll();
-	}
-
-	/** Gets a list of Pokemons that the name contains the string nome
-	 * @param pokemon the list of Pokemon to apply the name filter
-	 * @param name the name to use as filter
-	 * @return a list of Pokemons with the name filtered by the string nome
-	 */
-//	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
-//		return bpc.getAll(pokemon, name);
-//	}
 	
-	public Pokemon findAll(Integer id) {
-		Optional<Pokemon> obj= bpc.findById(id);
-		return obj.get();
-	}
-	
-	public List<Pokemon> findAll(List<Pokemon> pokemon, String name) {
-		Optional<List<Pokemon>> obj = bpc.findByNameContaining(name);
-		return obj.get();
-	}
-
-/*
- * -----------------------------------------------------------------------------------
- */
-	
-	private static List<Pokemon> pokemon = new ArrayList<>();
-
-	/** Will get a list of all the 151 Pokemons
-	 * @return the full list of Pokemons
-	 */
-	public List<Pokemon> getAll() {
-		if(pokemon.isEmpty()) {
-			setPokemon();
-		}
-		pokemon.sort((p1,p2) -> p1.getNumber().compareTo(p2.getNumber()));
-		return pokemon;
-	}
-
-	
-	/** Crates a list of all Pokemon that has evolutions, based on the list provided
-	 * @param pokemon the list of pokemont to filter from
-	 * @param evolve boolean indicating if we should check for evolution on not.
-	 * @return
-	 */
-	public List<Pokemon> findAll(List<Pokemon> pokemon, boolean evolve) {
-		Optional<List<Pokemon>> obj = bpc.findByEvolutionIsNotNull();
-		return obj.get();
-	}
-
-	public List<Pokemon> findAll(List<Pokemon> pokemon, String name, boolean evolve) {
-		Optional<List<Pokemon>> obj = bpc.findByNameContainingAndEvolutionIsNotNull(name);
-		return obj.get();
-	}
-	
-	/** List all pokemon that contains the string 'nome' in its name
-	 * @param pokemon the list of Pokemon to check and filter from
-	 * @param name the string to check if the pokemon name contains it
-	 * @return the list with the filter pokemon
-	 */
-	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
+	@Override
+	public void run(String... args) throws Exception {
 		
-		List<Pokemon> pokeFilter = new ArrayList<>();
-		for (Pokemon poke : pokemon) {
-			if (poke.getName().toUpperCase().indexOf(name.toUpperCase()) != -1) {
-				pokeFilter.add(poke);
-			}
-		}
-		pokeFilter.sort((p1,p2) -> p1.getNumber().compareTo(p2.getNumber()));
-		return pokeFilter;
-	}
-
-	/** Add new pokemon to the list
-	 * @param parameter, it should contain the number, name, types and pre evolution of a pokemon
-	 * @return
-	 */
-	public boolean addPokemon(Pokemon poke) {
-//		if(pokemon.isEmpty()) {
-//			setPokemon();
-//		}
-		
-//		Pokemon p = new Pokemon();
-//		for (String param : parameter.keySet()) {
-//			if(param.equals("number")) {
-//				p.setNumber(Integer.parseInt(parameter.get(param)));
-//			}
-//			if(param.equals("name")) {
-//				p.setName(parameter.get(param));
-//			}
-//			if(param.contains("type")) {
-//				p.addType(PokemonType.valueOf(parameter.get(param)));
-//			}
-//		}
-		
-		if(poke.getName() == null || poke.getNumber() == null || poke.getType().isEmpty()) {
-			return false;
-		}
-		
-		if(pokemon.contains(poke) == false) {
-			pokemon.add(poke);
-//			addEvolution(poke,parameter.get("evolveFrom"));
-			bpc.saveAll(Arrays.asList(poke));
-			return true;
-		}
-		return false;
-		
-	}
-	
-	/** Will add the pokemon to the evolution list of its pre evolution
-	 * @param poke
-	 * @param parameter
-	 */
-	private void addEvolution(Pokemon poke, String evolveFrom) {
-		if(evolveFrom != null) {
-			Pokemon p2 = findPreEvolution(evolveFrom);
-			if(p2 != null) {
-				p2.addEvolution(poke);
-			}
-		}
-	}
-	
-	/** Will find the pre evolution of the given pokemon
-	 * @param poke
-	 * @param pokePreEvolutionName
-	 * @return
-	 */
-	private Pokemon findPreEvolution(String pokePreEvolutionName) {
-		Pokemon pokePreEvolution = pokemon.stream()
-				.filter(p -> pokePreEvolutionName.equals(p.getName()))
-				.findFirst()
-				.orElse(null);
-		return pokePreEvolution;
-		
-	}
-
-	/** 
-	 * Create the full list of pokemon, hardcoded for now.
-	 */
-	private void setPokemon() {
-		pokemon.clear();
-		
+//		Category cat1 = new Category(null, "Electronics");
+//		Category cat2 = new Category(null, "Books");
+//		Category cat3 = new Category(null, "Computers");
+//		
+//		Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+//		Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+//		Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+//		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+//		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+//		
+//		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
+//		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+//		
+//		p1.getCategories().add(cat2);
+//		p2.getCategories().add(cat1);
+//		p2.getCategories().add(cat3);
+//		p3.getCategories().add(cat3);
+//		p4.getCategories().add(cat3);
+//		p5.getCategories().add(cat2);
+//		
+//		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+		List<Pokemon> pokemon = new ArrayList<>();
 		int pokeNumber = 0;
 
 		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
@@ -175,12 +53,14 @@ public class PokemonService {
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
-
+		
 		p = new Pokemon(++pokeNumber, "Ivysaur");
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
 		pokemon.add(p);
+		
 		pokemon.get(pokemon.size() - 2).addEvolution(p);
+		
 		p = new Pokemon(++pokeNumber, "Venusaur");
 		p.addType(PokemonType.valueOf("GRASS"));
 		p.addType(PokemonType.valueOf("POISON"));
@@ -907,7 +787,10 @@ public class PokemonService {
 		p = new Pokemon(++pokeNumber, "Mew");
 		p.addType(PokemonType.valueOf("PSYCHIC"));
 		pokemon.add(p);
+		
+		Collections.reverse(pokemon);
+		bpc.saveAll(pokemon);
+		
 	}
-	
-	
+
 }

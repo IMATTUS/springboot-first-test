@@ -4,17 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //XXX Domain
 
 /** Represents a Pokemon
  * @author Ibrahim Mattus Neto
  *
  */
+@Entity
+@Table(name="tb_pokemon")
 public class Pokemon {
-
-	private Integer number;
+	
+	@Id
+	private Integer id;
 	private String name;
+	
+	@ElementCollection(targetClass = PokemonType.class)
+	@CollectionTable
+	@Enumerated(EnumType.STRING)
 	private List<PokemonType> type = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(fetch=FetchType.LAZY)
 	private List<Pokemon> evolution = new ArrayList<>();
 
 	/** Basic contructor for Pokemon Class
@@ -29,7 +51,7 @@ public class Pokemon {
 	 * @param name the name of the Pokemon
 	 */
 	public Pokemon(Integer number, String name) {
-		this.number = number;
+		this.id = number;
 		this.name = name;
 
 	}
@@ -38,14 +60,14 @@ public class Pokemon {
 	 * @return the number that the pokemon has in the pokedex
 	 */
 	public Integer getNumber() {
-		return number;
+		return id;
 	}
 
 	/** Sets the number of the Pokemon in the pokedex
 	 * @param number the number in the pokedex
 	 */
 	public void setNumber(Integer number) {
-		this.number = number;
+		this.id = number;
 	}
 
 	/** Gets the name of the Pokemon
@@ -109,7 +131,7 @@ public class Pokemon {
 	 */
 	@Override
 	public String toString() {
-		return "Pokemon [number=" + number + ", name=" + name + ", type=" + type + "]";
+		return "Pokemon [number=" + id + ", name=" + name + ", type=" + type + "]";
 	}
 	
 	public boolean hasEvolution() {
@@ -122,7 +144,7 @@ public class Pokemon {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, number);
+		return Objects.hash(name, id);
 	}
 
 	@Override
@@ -134,7 +156,7 @@ public class Pokemon {
 		if (getClass() != obj.getClass())
 			return false;
 		Pokemon other = (Pokemon) obj;
-		return Objects.equals(name, other.name) && Objects.equals(number, other.number);
+		return Objects.equals(name, other.name) && Objects.equals(id, other.id);
 	}
 
 	

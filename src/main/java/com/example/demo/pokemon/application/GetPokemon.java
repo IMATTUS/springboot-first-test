@@ -21,9 +21,9 @@ public class GetPokemon {
 	/** Get all the Pokemons in the pokedex, no filters
 	 * @return a full list of Pokemons
 	 */
-	public List<Pokemon> getAll() {
+	public List<Pokemon> findAll() {
 
-		return pokeService.getAll();
+		return pokeService.findAll();
 	}
 
 	/** Gets a list of Pokemons that the name contains the string nome
@@ -31,9 +31,9 @@ public class GetPokemon {
 	 * @param name the name to use as filter
 	 * @return a list of Pokemons with the name filtered by the string nome
 	 */
-	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
+	public List<Pokemon> findAll(List<Pokemon> pokemon, String name) {
 
-		return pokeService.getAll(pokemon, name);
+		return pokeService.findAll(pokemon, name);
 	}
 
 	/** Gets a list of Pokemons that has evolutions (from basic stage to the last)
@@ -41,8 +41,12 @@ public class GetPokemon {
 	 * @param evolve boolean indicating if we must filter by evolution or not
 	 * @return a list of Pokemons that have evolutions
 	 */
-	public List<Pokemon> getAll(List<Pokemon> pokemon, boolean evolve) {
+	public List<Pokemon> findAll(List<Pokemon> pokemon, boolean evolve) {
 
-		return pokeService.getAll(pokemon, evolve);
+		return pokeService.findAll(pokemon, evolve);
+	}
+	public List<Pokemon> findAll(List<Pokemon> pokemon, String name, boolean evolve) {
+
+		return pokeService.findAll(pokemon, name, evolve);
 	}
 }
