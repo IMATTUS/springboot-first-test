@@ -29,44 +29,26 @@ public class PokemonService {
 	public List<Pokemon> findAll() {
 		return bpc.findAll();
 	}
-
-	/** Gets a list of Pokemons that the name contains the string nome
-	 * @param pokemon the list of Pokemon to apply the name filter
-	 * @param name the name to use as filter
-	 * @return a list of Pokemons with the name filtered by the string nome
-	 */
-//	public List<Pokemon> getAll(List<Pokemon> pokemon, String name) {
-//		return bpc.getAll(pokemon, name);
-//	}
 	
+	/**
+	 * @param id
+	 * @return a list of Pokemons filtered by id
+	 */
 	public Pokemon findAll(Integer id) {
 		Optional<Pokemon> obj= bpc.findById(id);
 		return obj.get();
 	}
 	
+	/** Gets a list of Pokemons that the name contains the string nome
+	 * @param pokemon the list of Pokemon to apply the name filter
+	 * @param name the name to use as filter
+	 * @return a list of Pokemons with the name filtered by the string nome
+	 */
 	public List<Pokemon> findAll(List<Pokemon> pokemon, String name) {
 		Optional<List<Pokemon>> obj = bpc.findByNameContaining(name);
 		return obj.get();
 	}
 
-/*
- * -----------------------------------------------------------------------------------
- */
-	
-//	private static List<Pokemon> pokemon = new ArrayList<>();
-//
-//	/** Will get a list of all the 151 Pokemons
-//	 * @return the full list of Pokemons
-//	 */
-//	public List<Pokemon> getAll() {
-//		if(pokemon.isEmpty()) {
-//			setPokemon();
-//		}
-//		pokemon.sort((p1,p2) -> p1.getNumber().compareTo(p2.getNumber()));
-//		return pokemon;
-//	}
-
-	
 	/** Crates a list of all Pokemon that has evolutions, based on the list provided
 	 * @param pokemon the list of pokemont to filter from
 	 * @param evolve boolean indicating if we should check for evolution on not.
@@ -77,6 +59,12 @@ public class PokemonService {
 		return obj.get();
 	}
 
+	/**
+	 * @param pokemon the list of Pokemon to apply the name filter
+	 * @param name the name to use as filter
+	 * @param evolve boolean indicating if we should check for evolution on not.
+	 * @return a list of pokemons that have evolutions and the name contains String name
+	 */
 	public List<Pokemon> findAll(List<Pokemon> pokemon, String name, boolean evolve) {
 		Optional<List<Pokemon>> obj = bpc.findByNameContainingAndEvolvedFromIsNotNull(name);
 		return obj.get();
@@ -98,40 +86,12 @@ public class PokemonService {
 			if(poke.getEvolvedFrom()!=null) {
 				addPokemon(poke.getEvolvedFrom());
 			}
-//			addEvolution(poke,parameter.get("evolveFrom"));
 			pokemon.add(poke);
 			bpc.saveAll(Arrays.asList(poke));
+			System.out.println(" xxx "+poke);
 			return true;
 		}
 		return false;
 		
 	}
-//	
-//	/** Will add the pokemon to the evolution list of its pre evolution
-//	 * @param poke
-//	 * @param parameter
-//	 */
-//	private void addEvolution(Pokemon poke, String evolveFrom) {
-//		if(evolveFrom != null) {
-//			Pokemon p2 = findPreEvolution(evolveFrom);
-//			if(p2 != null) {
-//				p2.addEvolution(poke);
-//			}
-//		}
-//	}
-//	
-//	/** Will find the pre evolution of the given pokemon
-//	 * @param poke
-//	 * @param pokePreEvolutionName
-//	 * @return
-//	 */
-//	private Pokemon findPreEvolution(String pokePreEvolutionName) {
-//		Pokemon pokePreEvolution = pokemon.stream()
-//				.filter(p -> pokePreEvolutionName.equals(p.getName()))
-//				.findFirst()
-//				.orElse(null);
-//		return pokePreEvolution;
-//		
-//	}
-//
 }

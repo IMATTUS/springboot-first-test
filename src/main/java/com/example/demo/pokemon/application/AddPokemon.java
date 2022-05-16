@@ -12,8 +12,6 @@ import com.example.demo.pokemon.service.PokemonService;
  */
 @Service
 public class AddPokemon {
-//	private static PokemonService pokeService = new PokemonService();
-	
 	@Autowired
 	private PokemonService pokeService;
 	

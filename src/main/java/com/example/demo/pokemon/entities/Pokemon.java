@@ -9,9 +9,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,12 +34,10 @@ public class Pokemon {
 	@Enumerated(EnumType.STRING)
 	private List<PokemonType> type = new ArrayList<>();
 	
-//	@JsonIgnore
 	@OneToOne()
 	private Pokemon evolvedFrom;
 
 	/** Basic contructor for Pokemon Class
-	 * 
 	 */
 	public Pokemon() {
 
@@ -128,20 +124,19 @@ public class Pokemon {
 	}
 
 	/** Overriding toString implementation
-	 *
 	 */
 	@Override
 	public String toString() {
 		return "Pokemon [number=" + id + ", name=" + name + ", type=" + type + "]";
 	}
 	
-	public boolean hasEvolution() {
-		if(this.evolvedFrom == null) {
-			return false;
-		}else {
-			return true;
-		}
-	}
+//	public boolean hasEvolution() {
+//		if(this.evolvedFrom == null) {
+//			return false;
+//		}else {
+//			return true;
+//		}
+//	}
 
 	@Override
 	public int hashCode() {

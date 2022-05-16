@@ -16,7 +16,6 @@ import com.example.demo.pokemon.entities.Pokemon;
 @Repository
 public interface BillsPC extends JpaRepository<Pokemon, Integer>{
 
-//	Optional<Pokemon> findByName(String name);
 	Optional<List<Pokemon>> findByName(String name);
 	Optional<List<Pokemon>> findByNameContaining(String name);
 	Optional<List<Pokemon>> findByNameContainingAndEvolvedFromIsNotNull(String name);

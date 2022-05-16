@@ -63,9 +63,6 @@ public class Pokedex {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		String json = null;
 
-		
-//		GetPokemon pokeApp = new GetPokemon();
-
 		pokedex = getPokemon.findAll();
 		if (parameter.size() == 0) {
 			json = mapper.writeValueAsString(pokedex.toArray());
@@ -89,13 +86,14 @@ public class Pokedex {
 
 	}
 	
+	/**
+	 * @param body
+	 * @return reponse if the pokemon was added successfully 
+	 * @throws JsonProcessingException
+	 */
 	@RequestMapping(value = "/pokemons", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-//	public String trataRequisicaoPost(@RequestBody String body) throws JsonProcessingException {
 	public ResponseEntity<?> create(@RequestBody String body) throws JsonProcessingException {
-//		Map<String, Object> body
-		StringBuilder sb = new StringBuilder();
-		sb.append("");
 		
 //		for (String param : parameter.keySet()) {
 //		// param will have the name of the parameter
@@ -110,29 +108,16 @@ public class Pokedex {
 //		}
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		String json = null;
 		
 		Pokemon poke = mapper.readValue(body, Pokemon.class);
 		
-		//XXX receber json, não funciona com "parameter"
-		//XXX passar apenas objeto do dominio-> Pokemon
-		
-//		AddPokemon pokeApp = new AddPokemon();
-		
 		if(!body.isEmpty()) {
-//			sb.append(addPokemon.addPokemon(poke));
 		    if(addPokemon.addPokemon(poke)) {
 		        return new ResponseEntity<>(HttpStatus.CREATED);
-		        
 		    } 
 		} 
 		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	
-		
-//		json = mapper.writeValueAsString(sb.toString());
-//		
-//		//XXX Retornar status code 201
-//		return json;
 	}
 
 }
