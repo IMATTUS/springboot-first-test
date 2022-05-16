@@ -19,8 +19,8 @@ public interface BillsPC extends JpaRepository<Pokemon, Integer>{
 //	Optional<Pokemon> findByName(String name);
 	Optional<List<Pokemon>> findByName(String name);
 	Optional<List<Pokemon>> findByNameContaining(String name);
-	Optional<List<Pokemon>> findByNameContainingAndEvolutionIsNotNull(String name);
-	Optional<List<Pokemon>> findByEvolutionIsNotNull();
+	Optional<List<Pokemon>> findByNameContainingAndEvolvedFromIsNotNull(String name);
+	Optional<List<Pokemon>> findByEvolvedFromIsNotNull();
 
 	
 }

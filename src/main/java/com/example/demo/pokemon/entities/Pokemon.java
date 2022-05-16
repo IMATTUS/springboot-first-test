@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,9 +36,9 @@ public class Pokemon {
 	@Enumerated(EnumType.STRING)
 	private List<PokemonType> type = new ArrayList<>();
 	
-	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY)
-	private List<Pokemon> evolution = new ArrayList<>();
+//	@JsonIgnore
+	@OneToOne()
+	private Pokemon evolvedFrom;
 
 	/** Basic contructor for Pokemon Class
 	 * 
@@ -108,22 +109,22 @@ public class Pokemon {
 	/** Gets the list of evolutions for the pokemon
 	 * @return the list of evolutions for the pokemon
 	 */
-	public List<Pokemon> getEvolution() {
-		return evolution;
+	public Pokemon getEvolvedFrom() {
+		return evolvedFrom;
 	}
 
 	/** Adds pokemon to the evolution list
 	 * @param pokemon
 	 */
-	public void addEvolution(Pokemon pokemon) {
-		evolution.add(pokemon);
+	public void addEvolvedFrom(Pokemon pokemon) {
+		evolvedFrom = pokemon;
 	}
 
 	/** Removes pokemon from the evolution list
 	 * @param pokemon
 	 */
 	public void removeEvolution(Pokemon pokemon) {
-		evolution.remove(pokemon);
+		evolvedFrom = null;
 	}
 
 	/** Overriding toString implementation
@@ -135,7 +136,7 @@ public class Pokemon {
 	}
 	
 	public boolean hasEvolution() {
-		if(this.evolution.isEmpty()) {
+		if(this.evolvedFrom == null) {
 			return false;
 		}else {
 			return true;
