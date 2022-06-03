@@ -119,7 +119,8 @@ public class Pokemon {
 	/** Removes pokemon from the evolution list
 	 * @param pokemon
 	 */
-	public void removeEvolution(Pokemon pokemon) {
+	public void removeEvolveFrom() {
+//	public void removeEvolution(Pokemon pokemon) {
 		evolvedFrom = null;
 	}
 

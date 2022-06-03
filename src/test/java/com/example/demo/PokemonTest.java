@@ -13,25 +13,61 @@ import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.entities.PokemonType;
 
 class PokemonTest {
-
-	
-
+	List<Pokemon> pokemon = new ArrayList<>();
 	@Test
-	final void testPokemonIntegerString() {
-//		fail("Not yet implemented"); // TODO
+	final void testPokemonNameAddedCorrectly() {
 		Pokemon p = new Pokemon(1, "Bulbasaur");
-		assertEquals("Bulbasauro", p.getName());
+		assertEquals("Bulbasaur", p.getName());
+	}
+	
+	@Test
+	final void testPokemonIdAddedCorrectly() {
+		Pokemon p = new Pokemon(1, "Bulbasaur");
+		assertEquals(1, p.getNumber());
+	}
+	
+	@Test
+	final void testTypeIsAddedCorrectly() {
+		Pokemon p = new Pokemon(1, "Bulbasaur");
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		assertEquals(PokemonType.valueOf("GRASS"), p.getType().get(0));
+		assertEquals(PokemonType.valueOf("POISON"), p.getType().get(1));
+	}
+	
+	@Test
+	final void testTypeIsRemovedCorrectly() {
+		Pokemon p = new Pokemon(1, "Bulbasaur");
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		p.removeType(PokemonType.valueOf("GRASS"));
+		assertEquals(PokemonType.valueOf("POISON"),
+				p.getType().get(0));
+	}
+	
+	@Test
+	final void testEvolvedFromIsAddedCorrectly() {
+		
+		assertEquals("Ivysaur",
+				pokemon.get(2).getEvolvedFrom().getName());
+	}
+	
+	@Test
+	final void testEvolvedFromIsRemovedCorrectly() {
+		pokemon.get(2).removeEvolveFrom();
+		assertEquals(null,
+				pokemon.get(2).getEvolvedFrom());
 	}
 
 	@Test
-	final void testAddType() {
+	final void testFail() {
 		fail("Not yet implemented"); // TODO
 	}
 	
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		List<Pokemon> pokemon = new ArrayList<>();
+//		List<Pokemon> pokemon = new ArrayList<>();
 		int pokeNumber = 0;
 
 		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
