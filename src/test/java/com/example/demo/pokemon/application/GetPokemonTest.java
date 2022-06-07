@@ -20,7 +20,6 @@ import com.example.demo.pokemon.entities.Pokemon;
 import com.example.demo.pokemon.entities.PokemonType;
 import com.example.demo.pokemon.service.PokemonService;
 
-
 class GetPokemonTest {
 
 	@InjectMocks
@@ -29,21 +28,8 @@ class GetPokemonTest {
 	@Mock
 	PokemonService pokemonService;
 	
-	
-	@BeforeEach
-	public void init() {
-		MockitoAnnotations.openMocks(this);
-	}
-	
-	@AfterEach
-	public void closing() throws Exception {
-		MockitoAnnotations.openMocks(this).close();
-	}
-	
 	@Test
 	final void testFindAll() {
-//		fail("Not yet implemented"); // TODO
-		
 		List<Pokemon> pokemon = new ArrayList<Pokemon>();
 		int pokeNumber = 0;
 
@@ -75,18 +61,110 @@ class GetPokemonTest {
 	}
 
 	@Test
-	final void testFindAllListOfPokemonString() {
-		fail("Not yet implemented"); // TODO
+	final void testFindAllByName() {
+//		fail("Not yet implemented"); // TODO
+		List<Pokemon> listPoke = new ArrayList<Pokemon>();
+		int pokeNumber = 0;
+
+		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
+
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		listPoke.add(p);
+		
+		p = new Pokemon(++pokeNumber, "Ivysaur");
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		
+		p.addEvolvedFrom(listPoke.get(listPoke.size()-1));
+		listPoke.add(p);
+		
+		p = new Pokemon(++pokeNumber, "Venusaur");
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		p.addEvolvedFrom(listPoke.get(listPoke.size()-1));
+		listPoke.add(p);
+
+		when(pokemonService
+				.findAll(listPoke, "saur"))
+		.thenReturn(listPoke);
+		
+		List<Pokemon> empList = 
+				pokemonService.findAll(listPoke,"saur");
+		
+		assertEquals(3, empList.size());
+		verify(pokemonService,times(1))
+		.findAll(listPoke,"saur");
 	}
 
 	@Test
-	final void testFindAllListOfPokemonBoolean() {
-		fail("Not yet implemented"); // TODO
+	final void testFindAllEvolution() {
+//		fail("Not yet implemented"); // TODO
+		List<Pokemon> listPoke = new ArrayList<Pokemon>();
+		int pokeNumber = 1;
+
+		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
+
+		p = new Pokemon(++pokeNumber, "Ivysaur");
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		
+		listPoke.add(p);
+		
+		p = new Pokemon(++pokeNumber, "Venusaur");
+		p.addType(PokemonType.valueOf("GRASS"));
+		p.addType(PokemonType.valueOf("POISON"));
+		p.addEvolvedFrom(listPoke.get(listPoke.size()-1));
+		listPoke.add(p);
+
+		when(pokemonService
+				.findAll(listPoke, true))
+		.thenReturn(listPoke);
+		
+		List<Pokemon> empList = 
+				pokemonService
+				.findAll(listPoke,true);
+		
+		assertEquals(2, empList.size());
+		verify(pokemonService,times(1))
+		.findAll(listPoke,true);
+		
 	}
 
 	@Test
-	final void testFindAllListOfPokemonStringBoolean() {
-		fail("Not yet implemented"); // TODO
+	final void testFindAllByNameAndEvolution() {
+//		fail("Not yet implemented"); // TODO
+		List<Pokemon> listPoke = new ArrayList<Pokemon>();
+		int pokeNumber = 5;
+
+		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
+
+		p = new Pokemon(++pokeNumber, "Charizard");
+		p.addType(PokemonType.valueOf("FIRE"));
+		p.addType(PokemonType.valueOf("FLYING"));
+		listPoke.add(p);
+
+		when(pokemonService
+				.findAll(listPoke, "zard",true))
+		.thenReturn(listPoke);
+		
+		List<Pokemon> empList = 
+				pokemonService
+				.findAll(listPoke,"zard",true);
+		
+		assertEquals(1, empList.size());
+		verify(pokemonService,times(1))
+		.findAll(listPoke,"zard",true);
 	}
 
+	@BeforeEach
+	public void init() {
+		MockitoAnnotations.openMocks(this);
+	}
+	
+	@AfterEach
+	public void closing() throws Exception {
+		MockitoAnnotations.openMocks(this).close();
+	}
+	
 }
