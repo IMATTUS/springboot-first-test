@@ -137,9 +137,9 @@ class GetPokemonTest {
 		List<Pokemon> listPoke = new ArrayList<Pokemon>();
 		int pokeNumber = 5;
 
-		Pokemon p = new Pokemon(++pokeNumber, "Bulbasaur");
+		Pokemon p = new Pokemon(++pokeNumber, "Charizard");
 
-		p = new Pokemon(++pokeNumber, "Charizard");
+		
 		p.addType(PokemonType.valueOf("FIRE"));
 		p.addType(PokemonType.valueOf("FLYING"));
 		listPoke.add(p);
